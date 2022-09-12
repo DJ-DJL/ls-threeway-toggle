@@ -1,5 +1,23 @@
 {
   "dependencies": {
     "http-server": "^14.1.1"
-  }
+  },
+  "name": "ls-threeway-toggle",
+  "description": "- [ls-threeway-toggle](#ls-threeway-toggle)   - [Usage](#usage)   - [&lt;three-way-toggle&gt; element](#three-way-toggle-element)     - [Attributes](#attributes)     - [Sub Elements](#sub-elements)     - [Text content](#text-content)     - [Technical summary](#technical-summary)     - [Javascript API](#javascript-api)       - [Constructor](#constructor)       - [Properties](#properties)       - [Methods](#methods)   - [&lt;option&gt; Element](#option-element)     - [Attributes](#attributes-1)     - [Sub Elements](#sub-elements-1)     - [Text content](#text-content-1)     - [Technical summary](#technical-summary-1)     - [Javascript API](#javascript-api-1)   - [Styling with CSS](#styling-with-css)     - [Examples](#examples)   - [Javascript example](#javascript-example)   - [Browser Compatibility](#browser-compatibility)",
+  "version": "0.0.1",
+  "main": "3way-toggle.mjs",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dj-djl/ls-threeway-toggle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dj-djl/ls-threeway-toggle/issues"
+  },
+  "homepage": "https://github.com/dj-djl/ls-threeway-toggle#readme"
 }
