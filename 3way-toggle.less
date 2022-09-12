@@ -1,0 +1,199 @@
+:host {
+  --color           : #CCC;
+  --outline         : var(--color);
+  --fill-color: transparent;
+  --knob            : var(--color);
+  overflow          : hidden;
+  position          : relative;
+  width             : auto;
+  display           : inline-block;
+  height            : 4.5em;
+
+  --text-color: inherit;
+  --text-left-color: var(--text-color);
+  --text-right-color: var(--text-color);
+  --text-middle-color: var(--text-color);
+
+  --knob-left-color: var(--knob);
+  --knob-right-color: var(--knob);
+  --knob-middle-color: var(--knob);
+
+  input {
+    display: none;
+  }
+
+  label {
+    margin: 0 0.4em;
+  }
+
+  div {
+    position: relative;
+    display : inline-block;
+  }
+
+  svg>circle {
+    transition-property       : cx, cy,fill;
+    transition-duration       : 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
+  input#C~div>svg>circle {
+    display: none;
+    cy     : 50px;
+    cx     : 25px;
+  }
+
+  input#A:checked {
+    ~div>svg>circle {
+      cx     : 0;
+      display: initial;
+      fill: var(--knob-left-color);
+    }
+
+    ~label.A {
+      font-weight: bold;
+    }
+  }
+
+  input#B:checked {
+    ~div>svg>circle {
+      cx     : 50px;
+      display: initial;
+      fill: var(--knob-right-color);
+    }
+
+    ~label.B {
+      font-weight: bold;
+    }
+  }
+
+  input#C:checked {
+    ~div>svg>circle {
+      cx     : 25px;
+      display: initial;
+      fill: var(--knob-middle-color);
+    }
+
+    ~div label.C {
+      font-weight: bold;
+    }
+  }
+
+  svg~label.C {
+    position   : absolute;
+    left       : 50%;
+    width      : 10000px;
+    margin-left: -5000px;
+    text-align : center;
+  }
+
+  label.min-size {
+    display       : inline-block;
+    margin        : 0 0.5em;
+    font-weight   : bold;
+    pointer-events: none;
+    color         : transparent;
+  }
+
+  label.A {
+    color: var(--text-left-color);
+  }
+  label.B {
+    color: var(--text-right-color);
+  }
+  label.C {
+    color: var(--text-middle-color);
+  }
+}
+
+:host([direction="down"]),
+:host(:not([direction])) {
+  >* {
+    position: relative;
+    top     : -1ex;
+  }
+
+  div {
+    top: 1.5ex;
+  }
+
+  input#A:checked~div>svg>circle {
+    cy: 30px;
+  }
+
+  input#B:checked~div>svg>circle {
+    cy: 30px;
+  }
+
+  input#C:checked~div>svg>circle {
+    cy: 73.3px;
+  }
+
+  div label.C {
+    top: 4ex;
+  }
+}
+
+:host([direction="up"]) {
+  height: 3.5em;
+
+  div {
+    top: calc(1em + 0.5ex);
+  }
+
+  input#A:checked~div>svg>circle {
+    cy: 70px;
+  }
+
+  input#B:checked~div>svg>circle {
+    cy     : 70px;
+    display: initial;
+
+  }
+
+  input#C:checked~div>svg>circle {
+    cy     : 27.7px;
+    display: initial;
+
+  }
+
+  label {
+    position: relative;
+    top     : 1em;
+  }
+
+  div label.C {
+    position: absolute;
+    top     : -3.3ex;
+
+  }
+}
+
+
+
+[data-boldsize] {
+  display   : inline-block;
+  text-align: center;
+
+  &::before {
+    display    : block;
+    content    : attr(data-boldsize);
+    font-weight: bold;
+    height     : 1px;
+    color      : transparent;
+    overflow   : hidden;
+    visibility : hidden;
+  }
+}
+
+
+ circle {
+  fill: #ccc;
+  fill: var(--knob);
+}
+
+ path {
+  stroke-width: 4;
+  fill        : var(--fill-color);
+  stroke      : var(--outline);
+}
