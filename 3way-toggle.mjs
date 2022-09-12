@@ -95,26 +95,7 @@ customElements.define('three-way-toggle',
       svg.querySelector('circle').style.transitionDuration = '0s';
       const styles = getStyles(this.getAttribute('direction') || 'down');
       this.value = sessionStorage.getItem(this.#sessionStorageID) || this.#rdo1.value;
-      //   <div class="threeway-toggle-up">
-      //   <input id="rdoOptionu1" name="threeway-up" type="radio" />
-      //   <input id="rdoOptionu2" name="threeway-up" type="radio" />
-      //   <input id="rdoOptionu3" name="threeway-up" type="radio" />
-      //   <label for="rdoOptionu1" data-boldsize="Option 1">Option 1</label>
-      //   <svg xmlns="http://www.w3.org/2000/svg" viewBox="-33 -5 116 109" width="32" version="2">
-      //     <!-- 0,30  50,30  25,73.3 -->
-      //     <circle r="20" style="fill: #ccc" />
-      //     <path d="M 0,100 
-      //              l 50,0 
-      //              a 30 30 0 0 0 26 -45 
-      //              l -25,-43.3
-      //              a 30 30 120 0 0 -52 0 
-      //              l -25,43.3
-      //              A 30 30 240 0 0 0 100" style="stroke: #CCC; stroke-width:4; fill:none" />
-      //   </svg>
-      // 
-      //   <label for="rdoOptionu2" data-boldsize="Option 2">Option 2</label>
-      //   <label for="rdoOptionu3" data-boldsize="Option 3">Option 3</label>
-      // </div>
+   
       const divArrangement = document.createElement('div');
       divArrangement.append(svg, lbl3);
       this.setAttribute('data-boldsize', this.#options[2].text);
