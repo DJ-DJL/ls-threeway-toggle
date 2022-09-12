@@ -53,7 +53,21 @@ customElements.define('three-way-toggle',
     #rdo1
     #rdo2
     #rdo3
+    #lbl1
+    #lbl2
+    #lbl3
+    #lbl3b
     #options
+
+    #setOption(rdo, lbl, option) {
+      if (rdo) {
+        rdo.setAttribute('value', option.value);
+      }
+      if (lbl) {
+        lbl.setAttribute(`data-boldsize`, option.text)
+        lbl.innerText = option.text;
+      }
+    }
     constructor() {
       super();
       this.#options = [...this.querySelectorAll('option')].map(option => ({
@@ -68,24 +82,25 @@ customElements.define('three-way-toggle',
       this.#rdo1 = document.createElement('input');
       this.#rdo2 = document.createElement('input');
       this.#rdo3 = document.createElement('input');
-      setAttributes(this.#rdo1, { id: 'A', name: 'choice', 'type': 'radio', value: this.#options[0].value });
-      setAttributes(this.#rdo2, { id: 'B', name: 'choice', 'type': 'radio', value: this.#options[1].value });
-      setAttributes(this.#rdo3, { id: 'C', name: 'choice', 'type': 'radio', value: this.#options[2].value });
-      const lbl1 = document.createElement('label');
-      const lbl2 = document.createElement('label');
-      const lbl3 = document.createElement('label');
-      const lbl3b = document.createElement('label');
-      lbl1.classList.add('A');
-      lbl2.classList.add('B');
-      lbl3.classList.add('C');
-      lbl3b.classList.add('min-size');
-      setAttributes(lbl1, { for: 'A', "data-boldsize": this.#options[0].text });
-      setAttributes(lbl2, { for: 'B', "data-boldsize": this.#options[1].text });
-      setAttributes(lbl3, { for: 'C', "data-boldsize": this.#options[2].text });
-      lbl1.innerText = this.#options[0].text;
-      lbl2.innerText = this.#options[1].text;
-      lbl3.innerText = this.#options[2].text;
-      lbl3b.innerText = this.#options[2].text;
+      this.#lbl1 = document.createElement('label');
+      this.#lbl2 = document.createElement('label');
+      this.#lbl3 = document.createElement('label');
+      this.#lbl3b = document.createElement('label');
+      this.#setOption(this.#rdo1, this.#lbl1, this.#options[0]);
+      this.#setOption(this.#rdo2, this.#lbl2, this.#options[1]);
+      this.#setOption(this.#rdo3, this.#lbl3, this.#options[2]);
+      this.#setOption(null, this.#lbl3b, this.#options[2]);
+
+      setAttributes(this.#rdo1, { id: 'A', name: 'choice', 'type': 'radio' });
+      setAttributes(this.#rdo2, { id: 'B', name: 'choice', 'type': 'radio' });
+      setAttributes(this.#rdo3, { id: 'C', name: 'choice', 'type': 'radio' });
+      this.#lbl1.classList.add('A');
+      this.#lbl2.classList.add('B');
+      this.#lbl3.classList.add('C');
+      this.#lbl3b.classList.add('min-size');
+      setAttributes(this.#lbl1, { for: 'A' });
+      setAttributes(this.#lbl2, { for: 'B' });
+      setAttributes(this.#lbl3, { for: 'C' });
 
       this.#rdo1.addEventListener('change', () => this.#setValue(this.#rdo1.value));
       this.#rdo2.addEventListener('change', () => this.#setValue(this.#rdo2.value));
@@ -95,11 +110,11 @@ customElements.define('three-way-toggle',
       svg.querySelector('circle').style.transitionDuration = '0s';
       const styles = getStyles(this.getAttribute('direction') || 'down');
       this.value = sessionStorage.getItem(this.#sessionStorageID) || this.#rdo1.value;
-   
+
       const divArrangement = document.createElement('div');
-      divArrangement.append(svg, lbl3);
+      divArrangement.append(svg, this.#lbl3);
       this.setAttribute('data-boldsize', this.#options[2].text);
-      this.shadowRoot.append(styles, this.#rdo1, this.#rdo2, this.#rdo3, lbl1, divArrangement, lbl2, lbl3b);
+      this.shadowRoot.append(styles, this.#rdo1, this.#rdo2, this.#rdo3, this.#lbl1, divArrangement, this.#lbl2, this.#lbl3b);
       if (Object.prototype.hasOwnProperty.call(this, 'value')) {
         const value = this.value;
         delete this.value;
@@ -107,12 +122,12 @@ customElements.define('three-way-toggle',
       }
       setTimeout(() => {
         svg.querySelector('circle').style.transitionDuration = null;
-        const minTotalWidth = lbl3b.clientWidth;
+        const minTotalWidth = this.#lbl3b.clientWidth;
         console.log(minTotalWidth);
         const divWidthOn2 = divArrangement.clientWidth / 2;
-        lbl1.style.marginLeft = ` ${Math.max(0, (minTotalWidth / 2) - (lbl1.clientWidth + divWidthOn2))}px`;
-        lbl2.style.marginRight = `${Math.max(0, (minTotalWidth / 2) - (lbl2.clientWidth + divWidthOn2))}px`;
-        lbl3b.style.display = 'none';
+        this.#lbl1.style.marginLeft = ` ${Math.max(0, (minTotalWidth / 2) - (this.#lbl1.clientWidth + divWidthOn2))}px`;
+        this.#lbl2.style.marginRight = `${Math.max(0, (minTotalWidth / 2) - (this.#lbl2.clientWidth + divWidthOn2))}px`;
+        this.#lbl3b.style.display = 'none';
       }, 1);
 
 
@@ -135,8 +150,6 @@ function getSVG(direction) {
   }
   return doc.querySelector('svg');
 }
-
-
 function getStyles(direction) {
   const style = document.createElement('link');
   style.setAttribute('rel', 'stylesheet');
