@@ -4,6 +4,13 @@ class Option {
     this.rdo = document.createElement('input');
     this.lbl = document.createElement('label');
     this.updateFromOption();
+
+    this.rdo.addEventListener('change', e => {
+      console.log('rdo changed', this.rdo.checked);
+      console.trace();
+
+    })
+
   }
   set value(value) {
     this.rdo.setAttribute('value', value);
@@ -58,14 +65,17 @@ customElements.define('three-way-toggle',
     #value;
     #sessionStorageID = `three-way-${this.id}`;
     #setValue(value) {
+      console.log('#setValue', value);
       const prevValue = this.#value;
       this.#value = value;
       this.#pauseMutationObserver();
       try {
         this.setAttribute('value', value);
         for (const option of this.#options) {
-          if (option.option) {
-            option.option.checked = (option.value === value);
+          if (option.optionElement) {
+            console.log(option, option.value === value);
+            option.optionElement.checked = (option.value === value);
+            console.log(option.optionElement.checked);
           }
         }
       } finally {
@@ -87,6 +97,8 @@ customElements.define('three-way-toggle',
         rdo.checked = true;
       }
       this.#setValue(value);
+      console.log(this.#options.map(o => o.optionElement?.checked));
+
     }
     #lbl3b
     #options
@@ -137,6 +149,7 @@ customElements.define('three-way-toggle',
 
       const svg = getSVG(this.getAttribute('direction') || 'down');
       svg.querySelector('circle').style.transitionDuration = '0s';
+      svg.addEventListener('click', () => this.#rotateValue());
       const styles = getStyles(this.getAttribute('direction') || 'down');
       this.value = sessionStorage.getItem(this.#sessionStorageID) || this.#options[0].rdo.value;
 
@@ -160,6 +173,10 @@ customElements.define('three-way-toggle',
 
       this.#mutationObserver = new MutationObserver((...args) => this.#mutation(...args));
       this.#resumeMutationObserver();
+    }
+    #rotateValue() {
+      const currentIndex = this.#options.map(o => o.rdo).findIndex(rdo => rdo.checked);
+      this.value = this.#options[(currentIndex + 1) % 3].value;
     }
     #mutation(mutationList, observer) {
       const currentValue = this.value;
